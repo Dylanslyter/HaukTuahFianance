@@ -1,28 +1,28 @@
 import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './Navbar';
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import AssetsForm from './AssetsForm';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import AssetsForm from './components/AssetsForm';
+import DonateForm from './components/DonateForm';
 
 function App() {
   return (
-    <ChakraProvider>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/assets" component={AssetsForm} />
-        </Switch>
-      </Router>
-    </ChakraProvider>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/assets" element={<AssetsForm />} />
+        <Route path="/donate" element={<DonateForm />} />
+      </Routes>
+    </>
   );
 }
 
 export default App;
+
 
 
