@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Box, Button, FormControl, FormLabel, Input, Heading, List, ListItem, Flex } from '@chakra-ui/react';
-import axios from 'axios';
 
-const stripePromise = loadStripe('your-publishable-key-here');
-
-const AssetsAndDonateForm = () => {
+const AssetsForm = () => {
   const [assets, setAssets] = useState([]);
   const [assetName, setAssetName] = useState('');
   const [assetValue, setAssetValue] = useState('');
-  const [amount, setAmount] = useState(0);
-  const stripe = useStripe();
-  const elements = useElements();
 
   const handleAddAsset = (event) => {
     event.preventDefault();
@@ -26,30 +18,6 @@ const AssetsAndDonateForm = () => {
       setAssets([...assets, newAsset]);
       setAssetName('');
       setAssetValue('');
-    }
-  };
-
-  const handleSubmitDonation = async (event) => {
-    event.preventDefault();
-
-    const { data } = await axios.post('/create-payment-intent', { amount: amount * 100 });
-
-    const clientSecret = data.clientSecret;
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: 'Donor Name',
-        },
-      },
-    });
-
-    if (result.error) {
-      console.log(result.error.message);
-    } else {
-      if (result.paymentIntent.status === 'succeeded') {
-        console.log('Donation successful!');
-      }
     }
   };
 
@@ -91,37 +59,12 @@ const AssetsAndDonateForm = () => {
           </ListItem>
         ))}
       </List>
-
-      <Heading mt="8" mb="6" textAlign="center">Donate</Heading>
-      <form onSubmit={handleSubmitDonation}>
-        <FormControl mb="4">
-          <FormLabel>Amount</FormLabel>
-          <Input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount"
-          />
-        </FormControl>
-        <FormControl mb="4">
-          <FormLabel>Card Details</FormLabel>
-          <CardElement />
-        </FormControl>
-        <Button type="submit" mt="4" colorScheme="teal" isFullWidth>
-          Donate
-        </Button>
-      </form>
     </Box>
   );
 };
 
-const AssetsAndDonate = () => (
-  <Elements stripe={stripePromise}>
-    <AssetsAndDonateForm />
-  </Elements>
-);
+export default AssetsForm;
 
-export default AssetsAndDonate;
 
 
 

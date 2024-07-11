@@ -1,30 +1,28 @@
 import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Box, Flex } from '@chakra-ui/react';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Navbar from './components/Navbar';
-
-import './App.css';
+import Navbar from './Navbar';
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
+import AssetsForm from './AssetsForm';
 
 function App() {
   return (
-    <Router>
-      <Flex direction="column" minHeight="100vh">
+    <ChakraProvider>
+      <Router>
         <Navbar />
-        <Box flex="1">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/donate" component={Donate} />
-          </Switch>
-        </Box>
-      </Flex>
-    </Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/assets" component={AssetsForm} />
+        </Switch>
+      </Router>
+    </ChakraProvider>
   );
 }
 
 export default App;
+
 

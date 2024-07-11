@@ -10,7 +10,7 @@ const Navbar = () => {
       <Button as={Link} to="/" colorScheme="teal" variant="outline" mr="4">Home</Button>
       <Button as={Link} to="/login" colorScheme="teal" variant="outline" mr="4">Login</Button>
       <Button as={Link} to="/signup" colorScheme="teal" variant="outline" mr="4">Sign Up</Button>
-      <Button as={Link} to="/donate" colorScheme="teal" variant="outline">Donate</Button>
+      <Button as={Link} to="/assets" colorScheme="teal" variant="outline">Assets</Button>
     </Flex>
   );
 };
