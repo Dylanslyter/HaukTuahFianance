@@ -6,9 +6,10 @@ const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 require('dotenv').config();
+const db = require('./config/connection');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 const server = new ApolloServer({
   typeDefs,
@@ -42,15 +43,21 @@ async function startServer() {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
+  
+  app.get('*', (req, res) => {
+    res.send("we made it boys");
+  });
 
   mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/net-worth-tracker', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 
-  app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+  db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`Now listening at http://localhost:${PORT}`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    });
   });
 }
 
