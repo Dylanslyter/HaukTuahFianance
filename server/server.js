@@ -17,6 +17,14 @@ const server = new ApolloServer({
   context: authMiddleware
 });
 
+//added middleware to verify token
+app.use(async (req, res, next) => {
+  const token = req.headers.authorization || '';
+  const user = await authMiddleware.verify(token);
+  req.user = user;
+  next();
+});
+
 async function startServer() {
   await server.start();
   server.applyMiddleware({ app });
