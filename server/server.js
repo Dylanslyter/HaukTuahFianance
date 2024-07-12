@@ -1,64 +1,30 @@
-const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const path = require('path');
-const mongoose = require('mongoose');
-const { typeDefs, resolvers } = require('./schemas');
-const { authMiddleware } = require('./utils/auth');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-require('dotenv').config();
-const db = require('./config/connection');
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import http from 'http';
+import { typeDefs, resolvers } from './schemas/index.js';
+import { authMiddleware } from './utils/auth.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-async function startServer() {
-  await server.start();
-  server.applyMiddleware({ app });
+await server.start();
 
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
+app.use(express.json());
 
-  app.post('/create-payment-intent', async (req, res) => {
-    const { amount } = req.body;
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'usd',
-    });
+app.use(
+  '/graphql',
+  expressMiddleware(server, {
+    context: authMiddleware,
+  }),
+);
 
-    res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
-  });
-
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    });
-  }
-  
-  app.get('*', (req, res) => {
-    res.send("we made it boys");
-  });
-
-  mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/net-worth-tracker', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`Now listening at http://localhost:${PORT}`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
-    });
-  });
-}
-
-startServer();
+await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
+console.log(` Server ready at http://localhost:4000/graphql`);
