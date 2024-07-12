@@ -1,4 +1,7 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+//added bcrypt for password hashing
+const bcrypt = require('bcrypt');
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -21,6 +24,14 @@ const userSchema = new Schema({
   // other fields as needed
 });
 
+// ensures password is hashed before saving
+userSchema.pre('save', async function(next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+})
+
 const User = mongoose.model('User', userSchema);
 
-export { User };
+module.exports = User;
