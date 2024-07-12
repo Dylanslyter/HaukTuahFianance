@@ -45,7 +45,7 @@ async function startServer() {
   }
   
   app.get('*', (req, res) => {
-    res.send("we made it boys");
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 
   mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/net-worth-tracker', {
