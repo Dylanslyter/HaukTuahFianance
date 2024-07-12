@@ -66,4 +66,4 @@ const Donate = () => (
   </Elements>
 );
 
-export default Donate;
+export default DonateForm;
