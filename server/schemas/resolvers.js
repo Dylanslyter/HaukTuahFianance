@@ -1,4 +1,4 @@
-// import { ApolloError } from '@apollo/server';
+import { GraphQLError } from 'graphql';
 import { User } from '../models/index.js';
 import { signToken } from '../utils/auth.js';
 
@@ -12,7 +12,7 @@ const resolvers = {
       if (context.user) {
         return User.findById(context.user._id);
       }
-      // throw new ApolloError('Not logged in', 'UNAUTHENTICATED');
+      throw new GraphQLError('Not logged in');
     }
   },
   Mutation: {
@@ -20,13 +20,13 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        // throw new ApolloError('Incorrect credentials', 'INVALID_CREDENTIALS');
+        throw new GraphQLError('Incorrect credentials');
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        // throw new ApolloError('Incorrect credentials', 'INVALID_CREDENTIALS');
+        throw new GraphQLError('Incorrect credentials')
       }
 
       const token = signToken(user);
@@ -41,5 +41,7 @@ const resolvers = {
     }
   }
 };
+
+console.log(resolvers);
 
 export { resolvers };

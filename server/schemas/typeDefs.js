@@ -1,15 +1,15 @@
-// import { gql } from '@apollo/server';
+import gql from 'graphql-tag';
 
-const typeDefs = `
+const typeDefs = gql`
   type User {
     _id: ID
-    username: String
-    email: String
+    username: String!
+    email: String!
   }
 
   type Query {
     me: User
-    users: User
+    users: [User]
   }
 
   type Mutation {

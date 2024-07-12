@@ -1,3 +1,4 @@
+import { db } from './config/connection.js';
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
@@ -5,26 +6,38 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import http from 'http';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authMiddleware } from './utils/auth.js';
+const PORT = process.env.PORT || 3001;
 
-const app = express();
-const httpServer = http.createServer(app);
+async function startServer() {
+  try {
+    db.once('open', () => console.log('Database connected'));
+    
+    const app = express();
+    const httpServer = http.createServer(app);
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+    
+    await server.start();
+    
+    app.use(
+      '/graphql',
+      express.json(),
+      expressMiddleware(server, {
+        context: async ({ req }) => ({ token: req.headers.token }), authMiddleware,
+      }),
+    );
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
+    console.log(`Now listening at http://localhost:${PORT}`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  } catch (error) {
+    console.error('Error starting server or connecting to database:', error);
+  }
+}
+
+db.once('open', () => {
+  startServer()
 });
-
-await server.start();
-
-app.use(express.json());
-
-app.use(
-  '/graphql',
-  expressMiddleware(server, {
-    context: authMiddleware,
-  }),
-);
-
-await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-console.log(` Server ready at http://localhost:4000/graphql`);
