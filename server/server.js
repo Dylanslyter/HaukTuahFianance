@@ -1,64 +1,43 @@
-const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const path = require('path');
-const mongoose = require('mongoose');
-const { typeDefs, resolvers } = require('./schemas');
-const { authMiddleware } = require('./utils/auth');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-require('dotenv').config();
-const db = require('./config/connection');
-
-const app = express();
+import { db } from './config/connection.js';
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import http from 'http';
+import { typeDefs, resolvers } from './schemas/index.js';
+import { authMiddleware } from './utils/auth.js';
 const PORT = process.env.PORT || 3001;
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: authMiddleware
-});
-
 async function startServer() {
-  await server.start();
-  server.applyMiddleware({ app });
-
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
-
-  app.post('/create-payment-intent', async (req, res) => {
-    const { amount } = req.body;
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'usd',
+  try {
+    db.once('open', () => console.log('Database connected'));
+    
+    const app = express();
+    const httpServer = http.createServer(app);
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
+    
+    await server.start();
+    
+    app.use(
+      '/graphql',
+      express.json(),
+      expressMiddleware(server, {
+        context: async ({ req }) => ({ token: req.headers.token }), authMiddleware,
+      }),
+    );
 
-    res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
-  });
-
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    });
+    await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
+    console.log(`Now listening at http://localhost:${PORT}`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  } catch (error) {
+    console.error('Error starting server or connecting to database:', error);
   }
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-  });
-
-  mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/net-worth-tracker', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`Now listening at http://localhost:${PORT}`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
-    });
-  });
 }
 
-startServer();
+db.once('open', () => {
+  startServer()
+});
