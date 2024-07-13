@@ -29,6 +29,10 @@ const userSchema = new Schema({
       value: {
         type: Number,
         required: true,
+        date: {
+          type: Date,
+          default: Date.now,
+        }
       },
     },
   ],
@@ -39,9 +43,14 @@ const userSchema = new Schema({
       value: {
         type: Number,
         required: true,
+        date: {
+          type: Date,
+          default: Date.now,
+        }
       },
     },
   ],
+
   // other fields as needed
 });
 
