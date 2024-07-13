@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-//added bcrypt for password hashing
-const bcrypt = require('bcrypt');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+
 
 const { Schema } = mongoose;
 
@@ -64,4 +64,4 @@ userSchema.pre('save', async function(next) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;
