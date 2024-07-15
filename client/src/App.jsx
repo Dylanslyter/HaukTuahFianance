@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AssetsForm from './components/AssetsForm';
 import LiabilitiesForm from './components/LiabilitiesForm';
 import DonateForm from './components/DonateForm';
