@@ -42,6 +42,4 @@ const resolvers = {
   }
 };
 
-console.log(resolvers);
-
 export { resolvers };
