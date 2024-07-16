@@ -26,7 +26,7 @@ const Home = () => {
         maxW="md"
         w="full"
         mx="auto"
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('purple.300', 'gray.800')}
         borderRadius="lg"
         boxShadow="2xl"
         textAlign="center"

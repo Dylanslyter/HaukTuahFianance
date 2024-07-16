@@ -25,7 +25,7 @@ const Signup = () => {
         maxW="md"
         w="full"
         mx="auto"
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('purple.300', 'black')}
         borderRadius="lg"
         boxShadow="2xl"
         textAlign="center"
@@ -34,7 +34,7 @@ const Signup = () => {
         <Heading mb="6" color={useColorModeValue('teal.500', 'teal.200')}>
           Sign Up
         </Heading>
-        <Text mb="6" color={useColorModeValue('gray.600', 'gray.400')}>
+        <Text mb="6" color={useColorModeValue('gray.600', 'black')}>
           Create an account to get started
         </Text>
         <form>
@@ -44,7 +44,7 @@ const Signup = () => {
               <Input
                 type="text"
                 placeholder="Enter your username"
-                focusBorderColor="teal.400"
+                focusBorderColor="black"
                 borderRadius="md"
               />
             </FormControl>
