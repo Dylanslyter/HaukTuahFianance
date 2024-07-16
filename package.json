@@ -15,6 +15,7 @@
     "dependencies": {
         "@apollo/server": "^4.10.4",
         "apollo-server-express": "^3.13.0",
+        "axios": "^1.7.2",
         "bcrypt": "^5.1.1",
         "concurrently": "^8.2.2",
         "dotenv": "^16.4.5",
@@ -22,6 +23,7 @@
         "graphql": "^16.9.0",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.5.0",
+        "redis": "^4.6.15",
         "stripe": "^8.176.0"
     },
     "devDependencies": {

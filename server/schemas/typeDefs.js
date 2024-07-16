@@ -10,6 +10,7 @@ const typeDefs = gql`
   type Query {
     me: User
     users: [User]
+    stock: [Stock!]!
   }
 
   type Mutation {
@@ -20,6 +21,12 @@ const typeDefs = gql`
   type Auth {
     token: ID!
     user: [User]
+  }
+
+  type Stock {  
+    _id: ID
+    symbol: String!
+    price: Float!
   }
 `;
 
