@@ -4,20 +4,85 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <Box as="nav" p="4" bg="teal.500" color="white">
+    <Box as="nav" p="4" bg="teal.500" color="white" boxShadow="md">
       <Flex align="center">
-        <Heading as="h1" size="lg">Finance Frenzy</Heading>
+        <Heading as="h1" size="lg" fontFamily="'Pacifico', cursive" color="purple.300">
+          Finance Frenzy
+        </Heading>
         <Spacer />
-        <Button as={Link} to="/" colorScheme="teal" variant="outline" mr="4" bg="#E1BE6A" >Home</Button>
-        <Button as={Link} to="/login" colorScheme="teal" variant="outline" mr="4" bg="#E1BE6A">Login</Button>
-        <Button as={Link} to="/signup" colorScheme="teal" variant="outline" mr="4" bg="#E1BE6A">Sign Up</Button>
-        <Button as={Link} to="/assets" colorScheme="teal" variant="outline" mr="4" bg="#E1BE6A">Assets</Button>
-        <Button as={Link} to="/liabilities" colorScheme="teal" variant="outline" mr="4" bg="#E1BE6A">Liabilities</Button>
-        <Button as={Link} to="/donate" colorScheme="teal" variant="outline" bg="#E1BE6A">Donate</Button>
+        <Flex>
+          <Button
+            as={Link}
+            to="/"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Home
+          </Button>
+          <Button
+            as={Link}
+            to="/login"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Login
+          </Button>
+          <Button
+            as={Link}
+            to="/signup"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Sign Up
+          </Button>
+          <Button
+            as={Link}
+            to="/assets"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Assets
+          </Button>
+          <Button
+            as={Link}
+            to="/liabilities"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Liabilities
+          </Button>
+          <Button
+            as={Link}
+            to="/donate"
+            variant="solid"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Donate
+          </Button>
+        </Flex>
       </Flex>
     </Box>
   );
 };
 
 export default Navbar;
+
+
 
