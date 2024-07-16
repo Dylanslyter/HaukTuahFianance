@@ -36,10 +36,13 @@ async function startServer() {
   );
 
   app.use(express.static(path.join(__dirname, '../client/dist')));
-
+  app.use('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  });
   await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
   console.log(`Now listening at http://localhost:${PORT}`);
   console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+
 }
 
 db.once('open', () => {
