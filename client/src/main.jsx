@@ -30,6 +30,14 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <Signup />,
       },
+      { path: 'assets', 
+      element: <AssetsForm /> },
+
+      { path: 'donate',
+      element: <DonateForm /> },
+      
+      { path: 'liabilities',
+      element: <LiabilitiesForm /> },
     ],
   },
 ]);
