@@ -35,6 +35,17 @@ const Navbar = () => {
           </Button>
           <Button
             as={Link}
+            to="/login"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Log Out
+          </Button>
+          <Button
+            as={Link}
             to="/signup"
             variant="solid"
             mr="4"
