@@ -11,6 +11,8 @@ import Signup from './pages/Signup.jsx';
 import AssetsForm from './pages/AssetsForm.jsx';
 import DonateForm from './pages/DonateForm.jsx';
 import LiabilitiesForm from './pages/LiabilitiesForm.jsx';
+import Donate from './pages/Donate.jsx';
+
 
 // router
 const router = createBrowserRouter([
@@ -38,6 +40,9 @@ const router = createBrowserRouter([
       
       { path: 'liabilities',
       element: <LiabilitiesForm /> },
+
+      {path: 'donate',
+      element: <Donate />},
     ],
   },
 ]);
