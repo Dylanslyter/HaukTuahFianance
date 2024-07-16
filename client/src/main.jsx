@@ -8,6 +8,9 @@ import App from './App.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
+import AssetsForm from './pages/AssetsForm.jsx';
+import DonateForm from './pages/DonateForm.jsx';
+import LiabilitiesForm from './pages/LiabilitiesForm.jsx';
 
 // router
 const router = createBrowserRouter([
