@@ -4,7 +4,7 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import { Box, Button, FormControl, FormLabel, Input, Heading } from '@chakra-ui/react';
 import axios from 'axios';
 
-const stripePromise = loadStripe('your-publishable-key-here');
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const DonateForm = () => {
   const [amount, setAmount] = useState(0);
