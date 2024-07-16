@@ -19,7 +19,7 @@ const resolvers = {
       }
       throw new GraphQLError('Not logged in');
     },
-    
+    // Added a resolver for the stock query
     stock: async (parent, { symbol }) => {
       const cacheKey = `stock:${symbol}`;
       let cachedData = await client.get(cacheKey);
