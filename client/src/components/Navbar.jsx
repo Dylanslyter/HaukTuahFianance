@@ -46,28 +46,6 @@ const Navbar = () => {
           </Button>
           <Button
             as={Link}
-            to="/assets"
-            variant="solid"
-            mr="4"
-            bg="purple.300"
-            color="black"
-            _hover={{ bg: "purple.400", color: "white" }}
-          >
-            Assets
-          </Button>
-          <Button
-            as={Link}
-            to="/liabilities"
-            variant="solid"
-            mr="4"
-            bg="purple.300"
-            color="black"
-            _hover={{ bg: "purple.400", color: "white" }}
-          >
-            Liabilities
-          </Button>
-          <Button
-            as={Link}
             to="/donate"
             variant="solid"
             bg="purple.300"
