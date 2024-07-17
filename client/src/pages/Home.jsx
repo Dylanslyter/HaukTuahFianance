@@ -89,7 +89,7 @@ const Home = () => {
         maxW="md"
         w="full"
         mx="auto"
-        bg={useColorModeValue('purple.300', 'gray.800')}
+        bg={useColorModeValue('white', 'gray.800')}
         borderRadius="lg"
         boxShadow="2xl"
         textAlign="center"
@@ -227,7 +227,7 @@ const Home = () => {
         maxW="md"
         w="full"
         mx="auto"
-        bg={useColorModeValue('purple.300', 'gray.800')}
+        bg={useColorModeValue('white', 'gray.800')}
         borderRadius="lg"
         boxShadow="2xl"
         textAlign="center"
