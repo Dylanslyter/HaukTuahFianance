@@ -41,7 +41,7 @@ const router = createBrowserRouter([
 
 // Set up the HTTP link
 const httpLink = createHttpLink({
-  uri: 'localhost:3000/graphql',
+  uri: 'http://localhost:3000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -55,11 +55,17 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Create the Apollo Client
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 // rendering the router
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <ApolloProvider client={client}> */}
+    <ApolloProvider client={client}>
     <RouterProvider router={router} />
-    {/* </ApolloProvider> */}
+    </ApolloProvider>
   </React.StrictMode>,
 );

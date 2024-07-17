@@ -13,7 +13,32 @@ const Home = () => {
   const [assetValue, setAssetValue] = useState('');
   const [liabilityName, setLiabilityName] = useState('');
   const [liabilityValue, setLiabilityValue] = useState('');
-const loggedIn = true;
+  const loggedIn = false;
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [login, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION);
+  const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION);
+
+  const handleLogin = async () => {
+    try {
+      const result = await login({ variables: { email, password } });
+      console.log('Login success:', result);
+    } catch (err) {
+      console.error('Login error:', err);
+    }
+  };
+
+  const handleAddUser = async () => {
+    try {
+      const result = await addUser({ variables: { username, email, password } });
+      console.log('AddUser success:', result);
+    } catch (err) {
+      console.error('AddUser error:', err);
+    }
+  };
   const handleAddAsset = (event) => {
     event.preventDefault();
     if (assetName && assetValue) {
@@ -221,6 +246,8 @@ const loggedIn = true;
             <FormControl id="username">
               <FormLabel>Username</FormLabel>
               <Input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 type="text"
                 placeholder="Enter your username"
                 focusBorderColor="black"
@@ -230,6 +257,8 @@ const loggedIn = true;
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="Enter your email"
                 focusBorderColor="teal.400"
@@ -239,13 +268,15 @@ const loggedIn = true;
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 placeholder="Enter your password"
                 focusBorderColor="teal.400"
                 borderRadius="md"
               />
             </FormControl>
-            <Button colorScheme="teal" type="submit" width="full" mt="4">
+            <Button colorScheme="teal" onClick={handleAddUser}  width="full" mt="4">
               Sign Up
             </Button>
           </VStack>
@@ -256,13 +287,25 @@ const loggedIn = true;
           <VStack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" placeholder="Enter your email" focusBorderColor="teal.400" borderRadius="md" />
+              <Input 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email" 
+              placeholder="Enter your email" 
+              focusBorderColor="teal.400" 
+              borderRadius="md" />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" placeholder="Enter your password" focusBorderColor="teal.400" borderRadius="md" />
+              <Input 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password" 
+              placeholder="Enter your password" 
+              focusBorderColor="teal.400" 
+              borderRadius="md" />
             </FormControl>
-            <Button colorScheme="teal" type="submit" width="full" mt="4">Login</Button>
+            <Button colorScheme="teal" onClick={handleLogin} type="submit" width="full" mt="4">Login</Button>
           </VStack>
         </form>
             </TabPanel>
