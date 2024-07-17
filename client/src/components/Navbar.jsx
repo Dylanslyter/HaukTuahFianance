@@ -24,6 +24,42 @@ const Navbar = () => {
           </Button>
           <Button
             as={Link}
+<<<<<<< HEAD
+=======
+            to="/login"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Login
+          </Button>
+          <Button
+            as={Link}
+            to="/login"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Log Out
+          </Button>
+          <Button
+            as={Link}
+            to="/signup"
+            variant="solid"
+            mr="4"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Sign Up
+          </Button>
+          <Button
+            as={Link}
+>>>>>>> 73ec8d880d3d7c2ddc79ad8ca37a4546a2324838
             to="/donate"
             variant="solid"
             bg="purple.300"
