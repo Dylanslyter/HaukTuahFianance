@@ -13,6 +13,7 @@
     "author": "Dylan Slyter",
     "license": "ISC",
     "dependencies": {
+        "@apollo/client": "^3.10.8",
         "@apollo/server": "^4.10.4",
         "@stripe/react-stripe-js": "^2.7.3",
         "@stripe/stripe-js": "^4.1.0",
