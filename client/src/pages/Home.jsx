@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import {
   Box, Button, FormControl, FormLabel, Input, Heading, List, ListItem, Flex, VStack, useColorModeValue, Tabs, TabList, TabPanels, Tab, TabPanel, Text
 } from '@chakra-ui/react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION, ADD_USER_MUTATION } from '../utils/mutations';
+
 const Home = () => {
   const [assets, setAssets] = useState([]);
   const [liabilities, setLiabilities] = useState([]);
@@ -171,7 +174,7 @@ const loggedIn = true;
         </Tabs>
       </Box>
     </Box>)
-  } else {
+  } else {  //login form appears here
     return ( <Box 
       minH="100vh"
       display="flex"
@@ -200,19 +203,74 @@ const loggedIn = true;
         textAlign="center"
         zIndex="1"
       >
-        <Heading mb="6" color={useColorModeValue('teal.500', 'teal.200')}>
+          <Heading mb="6" color={useColorModeValue('teal.500', 'teal.200')}>
           Welcome to Net Worth Tracker
         </Heading>
         <Text mb="4" fontSize="lg" color={useColorModeValue('gray.600', 'gray.400')}>
           Track your net worth easily and efficiently.
         </Text>
+        <Tabs isFitted variant="enclosed">
+          <TabList mb="1em">
+            <Tab>Sign Up</Tab>
+            <Tab>Login</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+          <form>
+          <VStack spacing={4}>
+            <FormControl id="username">
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your username"
+                focusBorderColor="black"
+                borderRadius="md"
+              />
+            </FormControl>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                focusBorderColor="teal.400"
+                borderRadius="md"
+              />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Enter your password"
+                focusBorderColor="teal.400"
+                borderRadius="md"
+              />
+            </FormControl>
+            <Button colorScheme="teal" type="submit" width="full" mt="4">
+              Sign Up
+            </Button>
+          </VStack>
+        </form>
+            </TabPanel>
+            <TabPanel>
+          <form>
+          <VStack spacing={4}>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input type="email" placeholder="Enter your email" focusBorderColor="teal.400" borderRadius="md" />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input type="password" placeholder="Enter your password" focusBorderColor="teal.400" borderRadius="md" />
+            </FormControl>
+            <Button colorScheme="teal" type="submit" width="full" mt="4">Login</Button>
+          </VStack>
+        </form>
+            </TabPanel>
+            </TabPanels>
+          </Tabs>
+          
+      
         <VStack spacing={4} mt={4}>
-          <Button as={Link} to="/signup" colorScheme="teal" size="lg" width="full">
-            Sign Up
-          </Button>
-          <Button as={Link} to="/login" colorScheme="teal" size="lg" width="full">
-            Login
-          </Button>
         </VStack>
       </Box>
   </Box> )

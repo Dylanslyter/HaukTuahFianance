@@ -2,6 +2,8 @@
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 // pages
 import App from './App.jsx';
@@ -37,9 +39,27 @@ const router = createBrowserRouter([
   },
 ]);
 
+// Set up the HTTP link
+const httpLink = createHttpLink({
+  uri: 'localhost:3000/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // Get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  };
+});
+
 // rendering the router
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {/* <ApolloProvider client={client}> */}
     <RouterProvider router={router} />
+    {/* </ApolloProvider> */}
   </React.StrictMode>,
 );
