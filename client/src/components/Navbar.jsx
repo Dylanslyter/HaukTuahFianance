@@ -3,6 +3,7 @@ import { Box, Flex, Heading, Spacer, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  function logout() {}
   return (
     <Box as="nav" p="4" bg="teal.500" color="white" boxShadow="md">
       <Flex align="center">
@@ -31,6 +32,17 @@ const Navbar = () => {
             _hover={{ bg: "purple.400", color: "white" }}
           >
             Donate
+          </Button>
+          <Button
+            as={Link}
+            onclick ={logout}
+            ml="4"
+            variant="solid"
+            bg="purple.300"
+            color="black"
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Log Out
           </Button>
         </Flex>
       </Flex>

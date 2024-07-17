@@ -21,7 +21,7 @@ const Home = () => {
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION);
   const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION);
-
+  const [total, setTotal] = useState(0);
   const handleLogin = async () => {
     try {
       const result = await login({ variables: { email, password } });
@@ -42,6 +42,7 @@ const Home = () => {
   const handleAddAsset = (event) => {
     event.preventDefault();
     if (assetName && assetValue) {
+      setTotal(prevTotal => prevTotal + parseFloat(assetValue));
       const newAsset = {
         name: assetName,
         value: parseFloat(assetValue),
@@ -55,6 +56,7 @@ const Home = () => {
   const handleAddLiability = (event) => {
     event.preventDefault();
     if (liabilityName && liabilityValue) {
+      setTotal(prevTotal => prevTotal - parseFloat(liabilityValue));
       const newLiability = {
         name: liabilityName,
         value: parseFloat(liabilityValue),
@@ -93,6 +95,9 @@ const Home = () => {
         textAlign="center"
         zIndex="1"
       >
+            <Heading mb="6" color={useColorModeValue('teal.500', 'teal.200')}>
+                Total ${total.toFixed(2)}
+              </Heading>
         <Tabs isFitted variant="enclosed">
           <TabList mb="1em">
             <Tab>Assets</Tab>
