@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <Box as="nav" p="4" bg="teal.500" color="white" boxShadow="md">
       <Flex align="center">
-        <Heading as="h1" size="lg" fontFamily="'Pacifico', cursive" color="purple.300">
+        <Heading as="h1" size="lg" fontFamily="'Pacifico', cursive" color="white">
           Finance Frenzy
         </Heading>
         <Spacer />
@@ -17,7 +17,7 @@ const Navbar = () => {
             to="/"
             variant="solid"
             mr="4"
-            bg="purple.300"
+            bg="white"
             color="black"
             _hover={{ bg: "purple.400", color: "white" }}
           >
@@ -27,7 +27,7 @@ const Navbar = () => {
             as={Link}
             to="/donate"
             variant="solid"
-            bg="purple.300"
+            bg="white"
             color="black"
             _hover={{ bg: "purple.400", color: "white" }}
           >
@@ -38,7 +38,7 @@ const Navbar = () => {
             onclick ={logout}
             ml="4"
             variant="solid"
-            bg="purple.300"
+            bg="white"
             color="black"
             _hover={{ bg: "purple.400", color: "white" }}
           >
