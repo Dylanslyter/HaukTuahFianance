@@ -1,12 +1,14 @@
 import React from 'react';
-import { Box, Flex, Heading, Spacer, Button } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spacer, Button, IconButton } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { FaHome, FaDonate, FaSignOutAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   function logout() {}
+
   return (
-    <Box as="nav" p="4" bg="teal.500" color="white" boxShadow="md">
-      <Flex align="center">
+    <Box as="nav" p="4" bgGradient="linear(to-r, teal.500, green.500)" color="white" boxShadow="xl">
+      <Flex align="center" maxW="1200px" mx="auto">
         <Heading as="h1" size="lg" fontFamily="'Pacifico', cursive" color="white">
           Finance Frenzy
         </Heading>
@@ -15,10 +17,10 @@ const Navbar = () => {
           <Button
             as={Link}
             to="/"
-            variant="solid"
+            variant="ghost"
             mr="4"
-            bg="white"
-            color="black"
+            color="white"
+            leftIcon={<FaHome />}
             _hover={{ bg: "purple.400", color: "white" }}
           >
             Home
@@ -26,24 +28,22 @@ const Navbar = () => {
           <Button
             as={Link}
             to="/donate"
-            variant="solid"
-            bg="white"
-            color="black"
+            variant="ghost"
+            mr="4"
+            color="white"
+            leftIcon={<FaDonate />}
             _hover={{ bg: "purple.400", color: "white" }}
           >
             Donate
           </Button>
-          <Button
-            as={Link}
-            onclick ={logout}
-            ml="4"
-            variant="solid"
-            bg="white"
-            color="black"
+          <IconButton
+            icon={<FaSignOutAlt />}
+            onClick={logout}
+            variant="ghost"
+            color="white"
             _hover={{ bg: "purple.400", color: "white" }}
-          >
-            Log Out
-          </Button>
+            aria-label="Log Out"
+          />
         </Flex>
       </Flex>
     </Box>
@@ -51,6 +51,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 
