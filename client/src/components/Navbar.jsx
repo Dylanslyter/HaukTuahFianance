@@ -3,8 +3,7 @@ import { Box, Flex, Heading, Spacer, Button, IconButton } from '@chakra-ui/react
 import { Link } from 'react-router-dom';
 import { FaHome, FaDonate, FaSignOutAlt } from 'react-icons/fa';
 
-const Navbar = () => {
-  function logout() {}
+const Navbar = ({ handleLogout }) => {
 
   return (
     <Box as="nav" p="4" bgGradient="linear(to-r, teal.500, green.500)" color="white" boxShadow="xl">
@@ -38,7 +37,7 @@ const Navbar = () => {
           </Button>
           <IconButton
             icon={<FaSignOutAlt />}
-            onClick={logout}
+            onClick={handleLogout}
             variant="ghost"
             color="white"
             _hover={{ bg: "purple.400", color: "white" }}
