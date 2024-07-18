@@ -10,15 +10,15 @@ const client = redis.createClient({ host: 'localhost', port: 6379 });
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('assets').populate('liabilities');
+      return User.find().populate('assets').populate('liabilities')
     },
 
     assets: async () => {
-      return Asset.find().populate('users');
+      return Asset.find();
     },
 
     liabilities: async () => {
-      return Liability.find().populate('users');
+      return Liability.find();
     },
     
     me: async (parent, args, context) => {
