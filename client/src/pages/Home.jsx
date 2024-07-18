@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box, Button, FormControl, FormLabel, Input, Heading, List, ListItem, Flex, VStack, useColorModeValue, Tabs, TabList, TabPanels, Tab, TabPanel, Text
@@ -13,7 +13,9 @@ const Home = () => {
   const [assetValue, setAssetValue] = useState('');
   const [liabilityName, setLiabilityName] = useState('');
   const [liabilityValue, setLiabilityValue] = useState('');
-  const loggedIn = false;
+  const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
+
+  const loggedIn = true;
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -22,6 +24,7 @@ const Home = () => {
   const [login, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION);
   const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION);
   const [total, setTotal] = useState(0);
+  
   const handleLogin = async () => {
     try {
       const result = await login({ variables: { email, password } });
@@ -66,15 +69,26 @@ const Home = () => {
       setLiabilityValue('');
     }
   };
+  useEffect(() => {
+    // Update bgImage whenever total changes
+    if (total < 0) {
+      setBgImage('/firemoney.jpg');
+    } else {
+      setBgImage('/backgroundnav.jpg');
+    }
+  }, [total]);
   if (loggedIn) { 
-    return ( <Box
-      minH="100vh"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      bgGradient="linear(to-r, teal.500, green.500)"
-      position="relative"
-    >
+    return (
+      <Box
+        minH="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bgImage="url('/backgroundnav.jpg')" // Reference the image in the public folder
+        bgSize="cover"
+        bgPosition="center"
+        position="relative"
+      >
       <Box
         position="absolute"
         top="0"
