@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -21,37 +20,21 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-//added assets and liabilities fields. These will be arrays of objects that reference the Asset and Liability models, respectively. Each object will have a value field that is a number.
   assets: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Asset',
-      value: {
-        type: Number,
-        required: true,
-        date: {
-          type: Date,
-          default: Date.now,
-        }
-      },
     },
   ],
   liabilities: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Liability',
-      value: {
-        type: Number,
-        required: true,
-        date: {
-          type: Date,
-          default: Date.now,
-        }
-      },
     },
   ],
-
-  // other fields as needed
+  netWorth: {
+      type: Number,
+  }
 });
 
 // ensures password is hashed before saving
