@@ -9,15 +9,20 @@ const AuthForm = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
   const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       if (data.login.token) {
         sessionStorage.setItem('token', data.login.token);
         setLoggedIn(true);
+        clearForm();
+      } else {
+        setError('Login failed. Please check your credentials.');
       }
     },
     onError: (error) => {
+      setError('Login failed. Please check your credentials.');
       console.error('Login error:', error);
     },
   });
@@ -27,29 +32,43 @@ const AuthForm = ({ setLoggedIn }) => {
       if (data.addUser.token) {
         sessionStorage.setItem('token', data.addUser.token);
         setLoggedIn(true);
+        clearForm();
+      } else {
+        setError('Sign up failed. Please try again later.');
       }
     },
     onError: (error) => {
+      setError('Sign up failed. Please try again later.');
       console.error('AddUser error:', error);
     },
   });
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(null); // Clear any previous errors
     try {
       await login({ variables: { email, password } });
     } catch (err) {
+      setError('Login failed. Please check your credentials.');
       console.error('Login error:', err);
     }
   };
 
   const handleAddUser = async (e) => {
     e.preventDefault();
+    setError(null); // Clear any previous errors
     try {
       await addUser({ variables: { username, email, password } });
     } catch (err) {
+      setError('Sign up failed. Please try again later.');
       console.error('AddUser error:', err);
     }
+  };
+
+  const clearForm = () => {
+    setUsername('');
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -102,6 +121,11 @@ const AuthForm = ({ setLoggedIn }) => {
                     borderRadius="md"
                   />
                 </FormControl>
+                {error && (
+                  <Text color="red.500" textAlign="center" mt="2">
+                    {error}
+                  </Text>
+                )}
                 <Button colorScheme="teal" type="submit" width="full" mt="4">
                   Sign Up
                 </Button>
@@ -133,6 +157,11 @@ const AuthForm = ({ setLoggedIn }) => {
                     borderRadius="md"
                   />
                 </FormControl>
+                {error && (
+                  <Text color="red.500" textAlign="center" mt="2">
+                    {error}
+                  </Text>
+                )}
                 <Button colorScheme="teal" type="submit" width="full" mt="4">
                   Login
                 </Button>
@@ -146,4 +175,6 @@ const AuthForm = ({ setLoggedIn }) => {
 };
 
 export default AuthForm;
+
+
 

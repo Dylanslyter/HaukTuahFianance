@@ -25,8 +25,9 @@ const Navbar = ({ handleLogout }) => {
             Home
           </Button>
           <Button
-            as={Link}
-            to="https://donate.stripe.com/7sIcQkbKVckNa2cdQQ"
+            as="a"
+            href="https://donate.stripe.com/7sIcQkbKVckNa2cdQQ"
+            target="_blank"
             variant="ghost"
             mr="4"
             color="white"
@@ -50,6 +51,7 @@ const Navbar = ({ handleLogout }) => {
 };
 
 export default Navbar;
+
 
 
 
