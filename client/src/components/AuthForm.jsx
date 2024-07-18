@@ -10,7 +10,7 @@ const AuthForm = ({ setLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [login, { loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION, {
+  const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       if (data.login.token) {
         sessionStorage.setItem('token', data.login.token);
@@ -22,7 +22,7 @@ const AuthForm = ({ setLoggedIn }) => {
     },
   });
 
-  const [addUser, { loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION, {
+  const [addUser] = useMutation(ADD_USER_MUTATION, {
     onCompleted: (data) => {
       if (data.addUser.token) {
         sessionStorage.setItem('token', data.addUser.token);
@@ -34,7 +34,8 @@ const AuthForm = ({ setLoggedIn }) => {
     },
   });
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       await login({ variables: { email, password } });
     } catch (err) {
@@ -42,7 +43,8 @@ const AuthForm = ({ setLoggedIn }) => {
     }
   };
 
-  const handleAddUser = async () => {
+  const handleAddUser = async (e) => {
+    e.preventDefault();
     try {
       await addUser({ variables: { username, email, password } });
     } catch (err) {
@@ -65,7 +67,7 @@ const AuthForm = ({ setLoggedIn }) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <form>
+            <form onSubmit={handleAddUser}>
               <VStack spacing={4}>
                 <FormControl id="username">
                   <FormLabel>Username</FormLabel>
@@ -100,14 +102,14 @@ const AuthForm = ({ setLoggedIn }) => {
                     borderRadius="md"
                   />
                 </FormControl>
-                <Button colorScheme="teal" onClick={handleAddUser} width="full" mt="4">
+                <Button colorScheme="teal" type="submit" width="full" mt="4">
                   Sign Up
                 </Button>
               </VStack>
             </form>
           </TabPanel>
           <TabPanel>
-            <form>
+            <form onSubmit={handleLogin}>
               <VStack spacing={4}>
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>
@@ -131,7 +133,7 @@ const AuthForm = ({ setLoggedIn }) => {
                     borderRadius="md"
                   />
                 </FormControl>
-                <Button colorScheme="teal" onClick={handleLogin} type="submit" width="full" mt="4">
+                <Button colorScheme="teal" type="submit" width="full" mt="4">
                   Login
                 </Button>
               </VStack>
@@ -144,3 +146,4 @@ const AuthForm = ({ setLoggedIn }) => {
 };
 
 export default AuthForm;
+
