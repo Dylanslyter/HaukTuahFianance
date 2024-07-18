@@ -25,7 +25,7 @@ const Navbar = () => {
           </Button>
           <Button
             as={Link}
-            to="/donate"
+            to="https://donate.stripe.com/7sIcQkbKVckNa2cdQQ"
             variant="solid"
             bg="white"
             color="black"
