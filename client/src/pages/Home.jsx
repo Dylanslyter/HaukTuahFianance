@@ -14,21 +14,47 @@ const Home = () => {
   const [liabilityName, setLiabilityName] = useState('');
   const [liabilityValue, setLiabilityValue] = useState('');
   const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
-
-  const loggedIn = true;
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [login, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION);
-  const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION);
+  const [login, { data: loginData, loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      if (data.login.token) {
+        sessionStorage.setItem('token', data.login.token); // Save token to session storage
+        setLoggedIn(true); // Set loggedIn to true after successful login
+      }
+    },
+    onError: (error) => {
+      console.error('Login error:', error); // Error handling for login
+    },
+  });
+  const [addUser, { data: addUserData, loading: addUserLoading, error: addUserError }] = useMutation(ADD_USER_MUTATION, {
+    onCompleted: (data) => {
+      if (data.addUser.token) {
+        sessionStorage.setItem('token', data.addUser.token); // Save token to session storage
+        setLoggedIn(true); // Set loggedIn to true after successful registration
+      }
+    },
+    onError: (error) => {
+      console.error('AddUser error:', error); // Error handling for registration
+    },
+  });
   const [total, setTotal] = useState(0);
+
+  // Check for token in session storage when component mounts
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      setLoggedIn(true); // Set loggedIn to true if token exists
+    }
+  }, []);
   
   const handleLogin = async () => {
     try {
-      const result = await login({ variables: { email, password } });
-      console.log('Login success:', result);
+      await login({ variables: { email, password } }); // Call login mutation
     } catch (err) {
       console.error('Login error:', err);
     }
@@ -36,11 +62,14 @@ const Home = () => {
 
   const handleAddUser = async () => {
     try {
-      const result = await addUser({ variables: { username, email, password } });
-      console.log('AddUser success:', result);
+      await addUser({ variables: { username, email, password } }); // Call addUser mutation
     } catch (err) {
       console.error('AddUser error:', err);
     }
+  };
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    setLoggedIn(false); // Set loggedIn to false after logout
   };
   const handleAddAsset = (event) => {
     event.preventDefault();
