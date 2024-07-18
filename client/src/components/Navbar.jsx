@@ -1,23 +1,56 @@
 import React from 'react';
-import { Box, Flex, Heading, Spacer, Button } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spacer, Button, IconButton } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { FaHome, FaDonate, FaSignOutAlt } from 'react-icons/fa';
 
-const Navbar = () => {
+const Navbar = ({ handleLogout }) => {
+
   return (
-    <Box as="nav" p="4" bg="teal.500" color="white">
-      <Flex align="center">
-        <Heading as="h1" size="lg">Net Worth Tracker</Heading>
+    <Box as="nav" p="4" bgGradient="linear(to-r, teal.500, green.500)" color="white" boxShadow="xl">
+      <Flex align="center" maxW="1200px" mx="auto">
+        <Heading as="h1" size="lg" fontFamily="'Pacifico', cursive" color="white">
+          Finance Frenzy
+        </Heading>
         <Spacer />
-        <Button as={Link} to="/" colorScheme="teal" variant="outline" mr="4">Home</Button>
-        <Button as={Link} to="/login" colorScheme="teal" variant="outline" mr="4">Login</Button>
-        <Button as={Link} to="/signup" colorScheme="teal" variant="outline" mr="4">Sign Up</Button>
-        <Button as={Link} to="/assets" colorScheme="teal" variant="outline" mr="4">Assets</Button>
-        <Button as={Link} to="/liabilities" colorScheme="teal" variant="outline" mr="4">Liabilities</Button>
-        <Button as={Link} to="/donate" colorScheme="teal" variant="outline">Donate</Button>
+        <Flex>
+          <Button
+            as={Link}
+            to="/"
+            variant="ghost"
+            mr="4"
+            color="white"
+            leftIcon={<FaHome />}
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Home
+          </Button>
+          <Button
+            as={Link}
+            to="https://donate.stripe.com/7sIcQkbKVckNa2cdQQ"
+            variant="ghost"
+            mr="4"
+            color="white"
+            leftIcon={<FaDonate />}
+            _hover={{ bg: "purple.400", color: "white" }}
+          >
+            Donate
+          </Button>
+          <IconButton
+            icon={<FaSignOutAlt />}
+            onClick={handleLogout}
+            variant="ghost"
+            color="white"
+            _hover={{ bg: "purple.400", color: "white" }}
+            aria-label="Log Out"
+          />
+        </Flex>
       </Flex>
     </Box>
   );
 };
 
 export default Navbar;
+
+
+
 

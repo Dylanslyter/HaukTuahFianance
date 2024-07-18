@@ -13,7 +13,10 @@
     "author": "Dylan Slyter",
     "license": "ISC",
     "dependencies": {
+        "@apollo/client": "^3.10.8",
         "@apollo/server": "^4.10.4",
+        "@stripe/react-stripe-js": "^2.7.3",
+        "@stripe/stripe-js": "^4.1.0",
         "apollo-server-express": "^3.13.0",
         "axios": "^1.7.2",
         "bcrypt": "^5.1.1",
@@ -23,6 +26,7 @@
         "graphql": "^16.9.0",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.5.0",
+        "react-icons": "^5.2.1",
         "redis": "^4.6.15",
         "stripe": "^8.176.0"
     },

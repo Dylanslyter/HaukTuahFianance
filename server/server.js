@@ -9,6 +9,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import http from 'http';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authMiddleware } from './utils/auth.js';
+import cors from 'cors';
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
@@ -27,11 +28,12 @@ async function startServer() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   
+  app.use(cors());
   app.use(
     '/graphql',
     express.json(),
     expressMiddleware(server, {
-      context: async ({ req }) => ({ token: req.headers.token }), authMiddleware,
+      context: authMiddleware,
     }),
   );
 

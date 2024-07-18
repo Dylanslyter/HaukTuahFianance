@@ -5,11 +5,33 @@ const typeDefs = gql`
     _id: ID
     username: String!
     email: String!
+    assets: [Asset]
+    liabilities: [Liability]
+  }
+
+  type Asset {
+    _id: ID 
+    name: String!
+    value: Float!
+    userId: User!
+  }
+
+  type Liability {
+    _id: ID 
+    value: Float!
+    userId: User!
   }
 
   type Query {
     me: User
     users: [User]
+  }
+
+  type Query {
+    me: User
+    users: [User]
+    assets: [Asset]
+    liabilities: [Liability]
     stock: [Stock!]!
   }
 

@@ -1,2 +1,4 @@
 import User from './User.js';
-export { User };
+import Asset from './Asset.js';
+import Liability from './Liability.js';
+export { User, Asset, Liability };
