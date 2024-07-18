@@ -16,6 +16,7 @@ export const ADD_USER_MUTATION = gql`
      user {
        _id
        email
+      }
     }
   }`
 ;
