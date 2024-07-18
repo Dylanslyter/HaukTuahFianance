@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Heading, useColorModeValue } from '@chakra-ui/react';
 import AssetsLiabilities from '../components/AssetsLiabilities';
 import AuthForm from '../components/AuthForm';
 
 const Home = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [total, setTotal] = useState(0);
+  const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -34,7 +35,7 @@ const Home = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        bgImage="url('/backgroundnav.jpg')"
+        bgImage={`url(${bgImage})`}
         bgSize="cover"
         bgPosition="center"
         position="relative"
@@ -107,6 +108,7 @@ const Home = () => {
 };
 
 export default Home;
+
 
 
 
