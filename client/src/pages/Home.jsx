@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Heading, useColorModeValue } from '@chakra-ui/react';
 import AssetsLiabilities from '../components/AssetsLiabilities';
 import AuthForm from '../components/AuthForm';
-
 const Home = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [total, setTotal] = useState(0);
   const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
 
