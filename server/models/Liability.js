@@ -10,10 +10,10 @@ const liabilitySchema = new Schema({
         type: Number,
         required: true,
       },
-      date: {
-        type: Date,
-        default: Date.now,
-      }
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }
 })
 
 const Liability = mongoose.model('Liability', liabilitySchema);
