@@ -24,7 +24,7 @@ Net Worth Tracker helps you keep track of your assets and liabilities, giving yo
 
 ## Credits
 This web application was designed by:<br>
-Finn Lambouris - [finntendoverse](https://github.com/finntendoverse)<br>
+Finn Lambouris - [finnlambouris](https://github.com/finnlambouris)<br>
 Dylan Slyter - [Dylanslyter](https://github.com/Dylanslyter)<br>
 Shawn Carlson - [OxMagnus](https://github.com/OxMagnus)<br>
 Matt Yee - [Matt-Yee](https://github.com/Matt-Yee)<br>
