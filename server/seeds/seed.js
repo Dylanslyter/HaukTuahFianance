@@ -20,20 +20,16 @@ db.once("open", async () => {
   await user2.save();
 
   // Assets
-  const savedUser1 = await user1.save();
-  const savedUser2 = await user2.save();
-
   await Asset.deleteMany({});
 
   const asset1 = new Asset({
     name: 'Car',
     value: 10000,
-    userId: savedUser1._id
+    userId: user1._id
   });
-
   await asset1.save();
   await User.findOneAndUpdate(
-    { _id: savedUser1._id },
+    { _id: user1._id },
     {
       $addToSet: {
         assets: asset1,
@@ -44,11 +40,11 @@ db.once("open", async () => {
   const asset2 = new Asset({
     name: 'Savings',
     value: 5000,
-    userId: savedUser2._id
+    userId: user2._id
   })
   await asset2.save();
   await User.findOneAndUpdate(
-    { _id: savedUser2._id },
+    { _id: user2._id },
     {
       $addToSet: {
         assets: asset1,
@@ -62,11 +58,11 @@ db.once("open", async () => {
   const liability1 = new Liability({
     name: 'Car Loan',
     value: 5000,
-    userId: savedUser1._id
+    userId: user1._id
   });
   await liability1.save();
   await User.findOneAndUpdate(
-    { _id: savedUser1._id },
+    { _id: user1._id },
     {
       $addToSet: {
         liabilities: liability1,
@@ -77,11 +73,11 @@ db.once("open", async () => {
   const liability2 = new Liability({
     name: 'Student Loan',
     value: 10000,
-    userId: savedUser2._id
+    userId: user2._id
   })
   await liability2.save();
   await User.findOneAndUpdate(
-    { _id: savedUser2._id },
+    { _id: user2._id },
     {
       $addToSet: {
         liabilities: liability2,

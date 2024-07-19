@@ -8,46 +8,19 @@ const polygonApiKey = 'YOUR_POLYGON_API_KEY';
 const client = redis.createClient({ host: 'localhost', port: 6379 });
 
 const resolvers = {
-  // Query: {
-  //   users: async () => {
-  //     return User.find().populate('assets').populate('liabilities');
-  //   },
-
-  //   assets: async () => {
-  //     return Asset.find();
-  //   },
-
-  //   liabilities: async () => {
-  //     return Liability.find();
-  //   },
-  // },
-
   Query: {
     users: async () => {
-      return User.find()
-        .populate('assets', 'name value userId')
-        .populate('liabilities', 'name value userId')
-        .populate({
-          path: 'assets.userId',
-          model: 'User',
-          select: 'username email' // Select only necessary fields
-        })
-        .populate({
-          path: 'liabilities.userId',
-          model: 'User',
-          select: 'username email' // Select only necessary fields
-        });
+      return User.find().populate('assets').populate('liabilities');
     },
-  
+
     assets: async () => {
-      return Asset.find();
+      return Asset.find().populate('userId');
     },
-  
+
     liabilities: async () => {
-      return Liability.find();
+      return Liability.find().populate('userId');
     },
   },
-  
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
