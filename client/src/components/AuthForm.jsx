@@ -4,16 +4,20 @@ import {
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION, ADD_USER_MUTATION } from '../utils/mutations';
+import { useOutletContext } from 'react-router-dom';
 
 const AuthForm = ({ setLoggedIn, setUser }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+ 
 
   const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       if (data.login.token) {
         sessionStorage.setItem('token', data.login.token);
+        seesionStorage.setItem('user', JSON.stringify(data.login.user));
+        setUser(data.login.user);
         setLoggedIn(true);
       }
     },
@@ -26,6 +30,7 @@ const AuthForm = ({ setLoggedIn, setUser }) => {
     onCompleted: (data) => {
       if (data.addUser.token) {
         sessionStorage.setItem('token', data.addUser.token);
+        sessionStorage.setItem('user', JSON.stringify(data.addUser.user));
         setLoggedIn(true);
       }
     },

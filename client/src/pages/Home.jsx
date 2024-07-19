@@ -6,11 +6,13 @@ const Home = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [total, setTotal] = useState(0);
   const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
-
+  const [user, setUser] = useState(null); 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    if (token) {
+    const userInfo = JSON.parse(sessionStorage.getItem('user'));
+    if (token && userInfo) {
       setLoggedIn(true);
+      setUser(userInfo);
     }
   }, []);
 
