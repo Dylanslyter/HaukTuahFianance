@@ -3,7 +3,7 @@ import {
   Box, Button, FormControl, FormLabel, Input, Heading, List, ListItem, Flex, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue
 } from '@chakra-ui/react';
 
-const AssetsLiabilities = ({ total, setTotal }) => {
+const AssetsLiabilities = ({ total, setTotal, user }) => {
   const [assets, setAssets] = useState([]);
   const [liabilities, setLiabilities] = useState([]);
   const [assetName, setAssetName] = useState('');
