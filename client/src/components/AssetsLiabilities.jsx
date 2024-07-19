@@ -16,6 +16,7 @@ const AssetsLiabilities = ({ total, setTotal }) => {
     if (assetName && assetValue) {
       setTotal(prevTotal => prevTotal + parseFloat(assetValue));
       const newAsset = {
+        _id: new Date().getTime().toString(),
         name: assetName,
         value: parseFloat(assetValue),
       };
@@ -30,12 +31,28 @@ const AssetsLiabilities = ({ total, setTotal }) => {
     if (liabilityName && liabilityValue) {
       setTotal(prevTotal => prevTotal - parseFloat(liabilityValue));
       const newLiability = {
+        _id: new Date().getTime().toString(),
         name: liabilityName,
         value: parseFloat(liabilityValue),
       };
       setLiabilities([...liabilities, newLiability]);
       setLiabilityName('');
       setLiabilityValue('');
+    }
+  };
+  const deleteAsset = (id) => {
+    const assetToDelete = assets.find(asset => asset._id === id);
+    if (assetToDelete) {
+      setTotal(prevTotal => prevTotal - assetToDelete.value);
+      setAssets(assets.filter(asset => asset._id !== id));
+    }
+  };
+
+  const deleteLiability = (id) => {
+    const liabilityToDelete = liabilities.find(liability => liability._id === id);
+    if (liabilityToDelete) {
+      setTotal(prevTotal => prevTotal + liabilityToDelete.value);
+      setLiabilities(liabilities.filter(liability => liability._id !== id));
     }
   };
 
@@ -90,6 +107,7 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{asset.name}</span>
                     <span>${asset.value.toFixed(2)}</span>
+                    <Button colorScheme="red" onClick={() => deleteAsset(asset._id)}>Delete</Button> 
                   </Flex>
                 </ListItem>
               ))}
@@ -138,6 +156,7 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{liability.name}</span>
                     <span>${liability.value.toFixed(2)}</span>
+                    <Button colorScheme="red" onClick={() => deleteLiability(liability._id)}>Delete</Button> 
                   </Flex>
                 </ListItem>
               ))}
