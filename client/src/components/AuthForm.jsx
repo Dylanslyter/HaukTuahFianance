@@ -14,7 +14,6 @@ const AuthForm = ({ setLoggedIn, setUser }) => {
     onCompleted: (data) => {
       if (data.login.token) {
         sessionStorage.setItem('token', data.login.token);
-        setUser(data.login.user);
         setLoggedIn(true);
       }
     },
@@ -27,7 +26,6 @@ const AuthForm = ({ setLoggedIn, setUser }) => {
     onCompleted: (data) => {
       if (data.addUser.token) {
         sessionStorage.setItem('token', data.addUser.token);
-        setUser(data.addUser.user); 
         setLoggedIn(true);
       }
     },
