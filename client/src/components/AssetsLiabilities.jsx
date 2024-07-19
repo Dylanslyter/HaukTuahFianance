@@ -84,12 +84,27 @@ const AssetsLiabilities = ({ total, setTotal }) => {
             <Heading size="md" mt="6" mb="4" color={useColorModeValue('teal.500', 'teal.200')}>
               Your Assets
             </Heading>
+
+            {/* 
+            commenting out to test the delete functionality
             <List spacing={3}>
               {assets.map((asset, index) => (
                 <ListItem key={index} p="4" borderWidth="1px" borderRadius="lg">
                   <Flex justify="space-between">
                     <span>{asset.name}</span>
                     <span>${asset.value.toFixed(2)}</span>
+                  </Flex>
+                </ListItem>
+              ))}
+            </List> */}
+            {/* this should delete the asset*/}
+            <List spaceing={3}>
+              {assets.map((asset) => (
+                <ListItem key={asset._id}>
+                  <Flex justify="space-between">
+                    <span>{asset.name}</span>
+                    <span>${asset.value.toFixed(2)}</span>
+                    <Button onClick={() => deleteAsset(asset._id)}>Delete</Button>
                   </Flex>
                 </ListItem>
               ))}
@@ -132,6 +147,8 @@ const AssetsLiabilities = ({ total, setTotal }) => {
             <Heading size="md" mt="6" mb="4" color={useColorModeValue('teal.500', 'teal.200')}>
               Your Liabilities
             </Heading>
+            {/* 
+            commenting out to test the delete functionality
             <List spacing={3}>
               {liabilities.map((liability, index) => (
                 <ListItem key={index} p="4" borderWidth="1px" borderRadius="lg">
@@ -141,7 +158,20 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   </Flex>
                 </ListItem>
               ))}
+            </List> */}
+            {/* this should delete the liability*/}
+            <List spaceing={3}>
+              {liabilities.map((asset) => (
+                <ListItem key={asset._id}>
+                  <Flex justify="space-between">
+                    <span>{asset.name}</span>
+                    <span>${asset.value.toFixed(2)}</span>
+                    <Button onClick={() => deleteLiability(asset._id)}>Delete</Button>
+                  </Flex>
+                </ListItem>
+              ))}
             </List>
+            
           </TabPanel>
         </TabPanels>
       </Tabs>

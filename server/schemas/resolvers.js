@@ -27,26 +27,26 @@ const resolvers = {
       }
       throw new GraphQLError('Not logged in');
     },
+    // commenting out stock query for now
     // Added a resolver for the stock query
-    stock: async (parent, { symbol }) => {
-      const cacheKey = `stock:${symbol}`;
-      let cachedData = await client.get(cacheKey);
+    // stock: async (parent, { symbol }) => {
+    //   const cacheKey = `stock:${symbol}`;
+    //   let cachedData = await client.get(cacheKey);
       
-      if (cachedData) {
-        return JSON.parse(cachedData);
-      }
-      
-      try {
-        const response = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?unadjusted=true&apiKey=${polygonApiKey}`);
-        const data = response.data;
+    //   if (cachedData) {
+    //     return JSON.parse(cachedData);
+    //   }
+    //   try {
+    //     const response = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?unadjusted=true&apiKey=${polygonApiKey}`);
+    //     const data = response.data;
         
-        client.set(cacheKey, JSON.stringify(data));
-        return [data]; // Return an array with the data
-      } catch (error) {
-        // Return an empty array if the API does not provide a response
-        return [];
-      }
-    }
+    //     client.set(cacheKey, JSON.stringify(data));
+    //     return [data]; // Return an array with the data
+    //   } catch (error) {
+    //     // Return an empty array if the API does not provide a response
+    //     return [];
+    //   }
+    // }
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -66,12 +66,37 @@ const resolvers = {
 
       return { token, user };
     },
+
+    // adds asset to user's assets array
+    addAsset: async ( parent, { name, value, userId }) => {
+      const asset = new Asset ({ name, value, userId });
+      await asset.save();
+      return asset;
+    },
+
+    // removes asset from user's assets array
+    deleteAsset: async (parent, { assetId }) => {
+      return Asset.findByIdAndDelete({ _id: assetId });
+    },
+
+    // adds liability to user's liabilities array
+    addLiability: async ( parent, { name, value, userId }) => {
+      const liability = new Liability ({ name, value, userId });
+      await liability.save();
+      return liability;
+    },
+
+    // removes liability from user's liabilities array
+    deleteLiability: async (parent, { liabilityId }) => {
+      return Liability.findByIdAndDelete({ _id: liabilityId });
+    },
+
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
   }
 };
 
