@@ -8,9 +8,7 @@ import { setContext } from '@apollo/client/link/context';
 // pages
 import App from './App.jsx';
 import Home from './pages/Home.jsx';
-import Login from './components/AuthForm.jsx';
-import Signup from './components/AuthForm.jsx';
-import DonateForm from './pages/DonateForm.jsx';
+
 
 
 // router
@@ -23,17 +21,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'signup',
-        element: <Signup />,
-      },
- 
-      { path: 'donate',
-      element: <DonateForm /> },
       
     ],
   },
