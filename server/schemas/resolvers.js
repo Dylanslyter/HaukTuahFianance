@@ -10,43 +10,16 @@ const client = redis.createClient({ host: 'localhost', port: 6379 });
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('assets').populate('liabilities')
+      return User.find().populate('assets').populate('liabilities');
     },
 
     assets: async () => {
-      return Asset.find();
+      return Asset.find().populate('userId');
     },
 
     liabilities: async () => {
-      return Liability.find();
+      return Liability.find().populate('userId');
     },
-    
-    me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findById(context.user._id);
-      }
-      throw new GraphQLError('Not logged in');
-    },
-    
-    stock: async (parent, { symbol }) => {
-      const cacheKey = `stock:${symbol}`;
-      let cachedData = await client.get(cacheKey);
-      
-      if (cachedData) {
-        return JSON.parse(cachedData);
-      }
-      
-      try {
-        const response = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?unadjusted=true&apiKey=${polygonApiKey}`);
-        const data = response.data;
-        
-        client.set(cacheKey, JSON.stringify(data));
-        return [data]; // Return an array with the data
-      } catch (error) {
-        // Return an empty array if the API does not provide a response
-        return [];
-      }
-    }
   },
   Mutation: {
     login: async (parent, { email, password }) => {
