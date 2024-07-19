@@ -30,6 +30,7 @@ async function startServer() {
   
   app.use(cors());
   app.use(
+    
     '/graphql',
     express.json(),
     expressMiddleware(server, {
