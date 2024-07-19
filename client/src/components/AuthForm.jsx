@@ -33,6 +33,7 @@ const AuthForm = ({ setLoggedIn, setUser }) => {
       console.error('AddUser error:', error);
     },
   });
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
