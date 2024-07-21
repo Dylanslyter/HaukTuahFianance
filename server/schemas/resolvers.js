@@ -26,6 +26,30 @@ const resolvers = {
       }
       throw new GraphQLError('Not logged in');
     },
+    listAssetsAndLiabilities: async (parent, args, context) => {
+      const token = context.headers.authorization;
+
+      if (!token) {
+        throw new AuthenticationError('You must be logged in');
+      }
+
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded._id).populate('assets').populate('liabilities');
+
+        if (!user) {
+          throw new AuthenticationError('User not found');
+        }
+
+        return {
+          assets: user.assets,
+          liabilities: user.liabilities,
+        };
+      } catch (error) {
+        throw new AuthenticationError('Invalid/Expired token');
+      }
+    },
+  
     // commenting out stock query for now
     // Added a resolver for the stock query
     // stock: async (parent, { symbol }) => {

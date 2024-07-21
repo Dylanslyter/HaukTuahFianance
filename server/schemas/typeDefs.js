@@ -22,12 +22,16 @@ const typeDefs = gql`
     value: Float
     userId: User
   }
-
+  type AssetsAndLiabilities {
+    assets: [Asset]
+    liabilities: [Liability]
+  }
   type Query {
     me: User
     users: [User]
     assets: [Asset]
     liabilities: [Liability]
+    listAssetsAndLiabilities: AssetsAndLiabilities
   }
 
   type Mutation {
@@ -38,7 +42,6 @@ const typeDefs = gql`
     addLiability(name: String!, value: Float!, userId: ID!): Liability
     deleteLiability(liabilityId: ID!): Liability!
   }
-
   type Auth {
     token: ID!
     user: User
