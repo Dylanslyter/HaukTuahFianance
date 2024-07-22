@@ -107,7 +107,6 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{asset.name}</span>
                     <span>${asset.value.toFixed(2)}</span>
-                    <Button colorScheme="red" onClick={() => deleteAsset(asset._id)}>Delete</Button> 
                   </Flex>
                 </ListItem>
               ))}
@@ -156,7 +155,7 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{liability.name}</span>
                     <span>${liability.value.toFixed(2)}</span>
-                    <Button colorScheme="red" onClick={() => deleteLiability(liability._id)}>Delete</Button> 
+                    <Button colorScheme="red" onClick={() => deleteLiability(liability._id)}>Delete</Button> {/* Delete button for liabilities */}
                   </Flex>
                 </ListItem>
               ))}
