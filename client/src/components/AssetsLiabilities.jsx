@@ -3,56 +3,86 @@ import {
   Box, Button, FormControl, FormLabel, Input, Heading, List, ListItem, Flex, VStack, Tabs, TabList, TabPanels, Tab, TabPanel, useColorModeValue
 } from '@chakra-ui/react';
 
-const AssetsLiabilities = ({ total, setTotal }) => {
-  const [assets, setAssets] = useState([]);
-  const [liabilities, setLiabilities] = useState([]);
+//importing the assets and liabilities mutations
+import { ADD_ASSET_MUTATION, DELETE_ASSET_MUTATION, ADD_LIABILITY_MUTATION, DELETE_LIABILITY_MUTATION, USER_ASSETS_LIABILITIES_QUERY } from '../utils/mutations';
+import { useMutation, useQuery } from '@apollo/client';
+
+const AssetsLiabilities = () => {
+  // const [assets, setAssets] = useState([]);
+  const { data } = useQuery(USER_ASSETS_LIABILITIES_QUERY);
+  console.log(data);
+  // const [liabilities, setLiabilities] = useState([]);
   const [assetName, setAssetName] = useState('');
   const [assetValue, setAssetValue] = useState('');
   const [liabilityName, setLiabilityName] = useState('');
   const [liabilityValue, setLiabilityValue] = useState('');
 
-  const handleAddAsset = (event) => {
+  const [addAsset] = useMutation(ADD_ASSET_MUTATION, {
+    refetchQueries: [ USER_ASSETS_LIABILITIES_QUERY ],
+  });
+  const [deleteAsset] = useMutation(DELETE_ASSET_MUTATION,
+    { refetchQueries: [ USER_ASSETS_LIABILITIES_QUERY ] }
+  );
+  const [addLiability] = useMutation(ADD_LIABILITY_MUTATION, {
+    refetchQueries: [ USER_ASSETS_LIABILITIES_QUERY ],
+  });
+  const [deleteLiability] = useMutation(DELETE_LIABILITY_MUTATION, {
+    refetchQueries: [ USER_ASSETS_LIABILITIES_QUERY ],
+  });
+
+  const assets = data?.listAssetsAndLiabilities.assets || [];
+  const liabilities = data?.listAssetsAndLiabilities.liabilities || [];
+
+
+  const handleAddAsset = async (event) => {
     event.preventDefault();
     if (assetName && assetValue) {
-      setTotal(prevTotal => prevTotal + parseFloat(assetValue));
+      // setTotal(prevTotal => prevTotal + parseFloat(assetValue));
       const newAsset = {
         _id: new Date().getTime().toString(),
         name: assetName,
         value: parseFloat(assetValue),
       };
-      setAssets([...assets, newAsset]);
+      await addAsset({
+        variables: { name: assetName, value: newAsset.value, userId: sessionStorage.getItem('token') }});
+      // setAssets([...assets, newAsset]);
       setAssetName('');
       setAssetValue('');
     }
   };
 
-  const handleAddLiability = (event) => {
+  const handleAddLiability = async (event) => {
     event.preventDefault();
     if (liabilityName && liabilityValue) {
-      setTotal(prevTotal => prevTotal - parseFloat(liabilityValue));
+      // setTotal(prevTotal => prevTotal - parseFloat(liabilityValue));
       const newLiability = {
         _id: new Date().getTime().toString(),
         name: liabilityName,
         value: parseFloat(liabilityValue),
       };
-      setLiabilities([...liabilities, newLiability]);
+      await addLiability({
+        variables: { name: liabilityName, value: newLiability.value, userId: sessionStorage.getItem('token') }});
+      // setLiabilities([...liabilities, newLiability]);
       setLiabilityName('');
       setLiabilityValue('');
     }
-  };
-  const deleteAsset = (id) => {
+    };
+
+  const handleDeleteAsset = (id) => {
     const assetToDelete = assets.find(asset => asset._id === id);
     if (assetToDelete) {
-      setTotal(prevTotal => prevTotal - assetToDelete.value);
-      setAssets(assets.filter(asset => asset._id !== id));
+      deleteAsset({ variables: { assetId: id } });
+      // setTotal(prevTotal => prevTotal - assetToDelete.value);
+      // setAssets(assets.filter(asset => asset._id !== id));
     }
   };
 
-  const deleteLiability = (id) => {
+  const handleDeleteLiability = (id) => {
     const liabilityToDelete = liabilities.find(liability => liability._id === id);
     if (liabilityToDelete) {
-      setTotal(prevTotal => prevTotal + liabilityToDelete.value);
-      setLiabilities(liabilities.filter(liability => liability._id !== id));
+      deleteLiability({ variables: { liabilityId: id } });
+      // setTotal(prevTotal => prevTotal + liabilityToDelete.value);
+      // setLiabilities(liabilities.filter(liability => liability._id !== id));
     }
   };
 
@@ -107,7 +137,8 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{asset.name}</span>
                     <span>${asset.value.toFixed(2)}</span>
-                    <Button colorScheme="red" onClick={() => deleteAsset(asset._id)}>Delete</Button> 
+                    {/* TODO implement new functions */}
+                    <Button colorScheme="red" onClick={() => handleDeleteAsset(asset._id)}>Delete</Button> 
                   </Flex>
                 </ListItem>
               ))}
@@ -156,7 +187,7 @@ const AssetsLiabilities = ({ total, setTotal }) => {
                   <Flex justify="space-between">
                     <span>{liability.name}</span>
                     <span>${liability.value.toFixed(2)}</span>
-                    <Button colorScheme="red" onClick={() => deleteLiability(liability._id)}>Delete</Button> 
+                    <Button colorScheme="red" onClick={() => handleDeleteLiability(liability._id)}>Delete</Button> 
                   </Flex>
                 </ListItem>
               ))}
@@ -169,6 +200,3 @@ const AssetsLiabilities = ({ total, setTotal }) => {
 };
 
 export default AssetsLiabilities;
-
-
-

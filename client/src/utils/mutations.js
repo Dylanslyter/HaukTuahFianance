@@ -42,8 +42,8 @@ export const USER_ASSETS_LIABILITIES_QUERY = gql`
   }
 `;
 export const ADD_ASSET_MUTATION = gql`
-  mutation AddAsset($name: String!, $value: Float!, $userId: ID!) {
-    addAsset(name: $name, value: $value, userId: $userId) {
+  mutation AddAsset($name: String!, $value: Float!) {
+    addAsset(name: $name, value: $value) {
       _id
       name
       value

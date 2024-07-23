@@ -2,10 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Heading, useColorModeValue } from '@chakra-ui/react';
 import AssetsLiabilities from '../components/AssetsLiabilities';
 import AuthForm from '../components/AuthForm';
+
+import { USER_ASSETS_LIABILITIES_QUERY } from '../utils/mutations';
+import { useQuery } from '@apollo/client';
+
 const Home = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [total, setTotal] = useState(0);
   const [bgImage, setBgImage] = useState('/backgroundnav.jpg');
+
+  let total = 0;
+  const { data } = useQuery(USER_ASSETS_LIABILITIES_QUERY);
+  if (data) {
+    total = data.listAssetsAndLiabilities.assets.reduce((acc, asset) => acc + asset.value, 0) - data.listAssetsAndLiabilities.liabilities.reduce((acc, liability) => acc + liability.value, 0);
+  }
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -62,7 +71,7 @@ const Home = () => {
           <Heading mb="6" color={useColorModeValue('teal.500', 'teal.200')}>
             Total ${total.toFixed(2)}
           </Heading>
-          <AssetsLiabilities total={total} setTotal={setTotal} />
+          <AssetsLiabilities />
           <Button colorScheme="teal" mt="4" onClick={handleLogout}>
             Logout
           </Button>
