@@ -9,7 +9,7 @@ Net Worth Tracker helps you keep track of your assets and liabilities, giving yo
 
 ## Deployed Application
 ![Deployed Application Photo]()
-[Net Worth Tracker on Heroku](https://your-heroku-app.herokuapp.com)
+[Net Worth Tracker on Render](https://financefrenzy.onrender.com)
 
 ## Technologies Used
 - React
