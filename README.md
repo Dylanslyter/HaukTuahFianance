@@ -8,7 +8,7 @@ A finance application to track your net worth.
 Net Worth Tracker helps you keep track of your assets and liabilities, giving you a clear picture of your financial health.
 
 ## Deployed Application
-![Deployed Application Photo]()
+![Deployed Application Photo](./client/public/app.png)
 [Net Worth Tracker on Render](https://financefrenzy.onrender.com)
 
 ## Technologies Used
