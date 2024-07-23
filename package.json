@@ -1,0 +1,23 @@
+{
+    "name": "net-worth-tracker",
+    "version": "1.0.0",
+    "description": "A finance application to track net worth.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server/server.js",
+        "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+        "install": "cd server && npm i && cd ../client && npm i",
+        "seed": "cd server && npm run seed",
+        "build": "cd client && npm run build"
+    },
+    "author": "Dylan Slyter",
+    "license": "ISC",
+    "dependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "devDependencies": {
+        "eslint": "^9.6.0",
+        "eslint-config-prettier": "^9.1.0",
+        "prettier": "^3.3.2"
+    }
+}
