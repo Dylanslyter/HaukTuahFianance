@@ -45,6 +45,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// confirms the entered password is the same as the saved password
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
