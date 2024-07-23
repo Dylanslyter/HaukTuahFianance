@@ -3,6 +3,8 @@ import { User, Asset, Liability } from '../models/index.js';
 import { signToken } from '../utils/auth.js';
 import axios from 'axios';
 import redis from 'redis';
+import mongoose from 'mongoose';
+import { AuthenticationError } from 'apollo-server-express';
 
 const polygonApiKey = 'YOUR_POLYGON_API_KEY';
 const client = redis.createClient({ host: 'localhost', port: 6379 });
@@ -27,18 +29,17 @@ const resolvers = {
       throw new GraphQLError('Not logged in');
     },
     listAssetsAndLiabilities: async (parent, args, context) => {
-      const token = context.headers.authorization;
+      const userId = context?.user._id;
 
-      if (!token) {
+      if (!userId) {
         throw new AuthenticationError('You must be logged in');
       }
 
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded._id).populate('assets').populate('liabilities');
-
+        const user = await User.findById(userId).populate('assets').populate('liabilities');
+        console.log(user);
         if (!user) {
-          throw new AuthenticationError('User not found');
+          throw new GraphQLError('Uer not fousnd');
         }
 
         return {
@@ -46,7 +47,7 @@ const resolvers = {
           liabilities: user.liabilities,
         };
       } catch (error) {
-        throw new AuthenticationError('Invalid/Expired token');
+        throw new GraphQLError('Error Occurred');
       }
     },
   
@@ -91,9 +92,21 @@ const resolvers = {
     },
 
     // adds asset to user's assets array
-    addAsset: async ( parent, { name, value, userId }) => {
-      const asset = new Asset ({ name, value, userId });
+    // addAsset: async ( parent, { name, value, userId }) => {
+    //   const asset = new Asset ({ name, value, userId });
+    //   await asset.save();
+    //   return asset;
+    // },
+    addAsset: async (parent, { name, value }, context) => {
+      const userId = context?.user._id;
+      if (!userId) {
+        throw new GraphQLError('Not logged in or invalid user');
+      }
+      const asset = new Asset({ name, value, userId });
       await asset.save();
+      const user = await User.findById(userId).populate('assets');
+      user.assets.push(asset);
+      await user.save();
       return asset;
     },
 
@@ -103,9 +116,16 @@ const resolvers = {
     },
 
     // adds liability to user's liabilities array
-    addLiability: async ( parent, { name, value, userId }) => {
-      const liability = new Liability ({ name, value, userId });
+    addLiability: async (parent, { name, value }, context) => {
+      const userId = context?.user._id;
+      if (!userId) {
+        throw new GraphQLError('Not logged in or invalid user');
+      }
+      const liability = new Liability({ name, value, userId });
       await liability.save();
+      const user = await User.findById(userId).populate('liabilities');
+      user.liabilities.push(liability);
+      await user.save();
       return liability;
     },
 
